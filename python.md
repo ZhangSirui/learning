@@ -29,4 +29,17 @@
 8. 偏函数  
 functools模块提供了偏函数功能，简单说，functools.partial作用就是把一个函数的某些参数固定住，返回一个新的函数，这样再调用这个新的函数时，就会更方便地实现一些定制功能  
 
+9. 内置函数enumerate可以遍历并自动计数  
+```
+for counter, value in enumerate(some_list):
+    print(counter, value)
+```  
+enumerate还可以接收参数，比如`enumerate(list, 1)`表示从第一个开始计数  
 
+10. python字典的keys(), values(), items()都会返回一个list，其中items()返回的是键值对的list  
+
+11. python的\*args和\*\*kwargs是约定生成的，只有前面的\*和\*\*是必须的  
+\*args和\*\*kwargs用于函数定义，将不定数量的参数传递给一个函数  
+\*args用来发送一个非键值对的可变数量的参数列表给一个函数, \*\*kwargs允许将不定长度的键值对，作为参数传给函数
+
+12. 
