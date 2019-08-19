@@ -50,5 +50,88 @@ enumerate还可以接收参数，比如`enumerate(list, 1)`表示从第一个开
 Python中的赋值操作总是建立对象的引用值，而不是复制对象；Python中的变量更像是指针，而不是数据存储区域  
 比如`x=1; y=x`，此时修改x的值，y的值也会跟着改变
 > + 深复制与浅复制  
+浅复制：  
+![](snapshot/浅复制.png)  
+深复制：  
+![](snapshot/深复制.png)  
+浅复制只是复制一个引用，而深复制会连同引用和指向的元素一同复制  
+copy标准库模块能够生成完整拷贝；deepcopy的本质是递归copy  
 
-浅复制只是复制一个引用，而深复制会连同引用和指向的元素一同复制
+14. 可以通过解压序列（tuple、list、str等）的方法来赋值给多个变量  
+```
+>>> p = (4, 5)  
+>>> x, y = p  
+>>> x  
+4  
+>>> y  
+5  
+>>> s = 'Hello'  
+>>> a, b, c, d, e = s
+>>> a  
+'H'
+```
+注意**数量必须相等**  
+python3之后，当想将序列中多个元素都赋值给一个变量时，可以使用\*号表达式  
+```
+>>> *trailing, current = [10,8,7,1,9,5,10,3]
+>>> trailing
+[10,8,7,1,9,5,10]
+>>> current
+3
+```
+
+15. **生成器**  
+生成器也是一种迭代器，所谓迭代器就是定义了next方法的对象  
+生成器只能对它迭代一次，这是因为他们的值并没有存在内存中，而是在运行时生成值  
+生成器最佳应用场景是：你不想同一时间将所有计算出来的大量结果集分配到内存当中，特别是结果集里还包含循环，使用生成器可以减少资源消耗  
+许多Python 2里的标准库函数都会返回列表，而Python 3都修改成了返回生成器，因为生成器占用更少的资源  
+
+16. 字典的get方法  
+返回指定key的value，如果value不在字典中，则返回默认值  
+`dict.get(key, default=None)`，default可以自己指定  
+
+17. **堆**  
+heapq模块为堆模块  
+`heapq.nlargest(n, iterable, key=None)`和`heapq.nsmallest(n, iterable, key=None)`返回一个集合的最大或最小的N个元素列表  
+比如：  
+```
+import heapq
+nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]
+print(heapq.nlargest(3, nums)) # prints [42, 37, 23]
+print(heapq.nsmallest(3, nums)) # prints [-4, 1, 2]
+```  
+还可以接受关键字参数  
+比如：  
+```
+portfolio = [
+    {'name': 'IBM', 'shares': 100, 'price': 91.1},
+    {'name': 'AAPL', 'shares': 50, 'price': 543.22},
+    {'name': 'FB', 'shares': 200, 'price': 21.09},
+    {'name': 'HPQ', 'shares': 35, 'price': 31.75},
+    {'name': 'YHOO', 'shares': 45, 'price': 16.35},
+    {'name': 'ACME', 'shares': 75, 'price': 115.65}
+]
+cheap = heapq.nsmallest(3, portfolio, key=lambda s: s['price'])
+expensive = heapq.nlargest(3, portfolio, key=lambda s: s['price'])
+```
+本质都是堆排序  
+
+18. 可以使用dir()来获取一个对象的所有属性和方法  
+
+19. Python并没有提供抽象类和抽象方法，但是提供了内置模块abc来模拟抽象类  
+
+20. 删除字典的一个key可以用del  
+
+21. **__call__方法**  
+。。。。。。。。
+
+22. **包的概念**  
+包定义了一个由模块、子包、子包下的子包等组成的Python应用环境  
+在包的目录下，必须有一个__init__.py的文件，用来标识它是一个包  
+
+23. **with语句**  
+。。。。。
+
+24. list的初始化  
+初始化一个固定大小的list  
+比如：初始化一个有5个元素，每个元素都为1的list可以通过`list = [1] * 5`  
