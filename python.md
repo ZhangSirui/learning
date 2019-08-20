@@ -254,3 +254,23 @@ python多线程相当于单位时间内只有一个线程在运行，如果是�
 原因是python存在一个GIL（全局解释器锁），当一个线程在运行的时候，会自动上锁  
 所以python并不适合计算密集型的程序，解决办法是计算密集型的任务用c 编写，通过.so链接库把内容加载到Python中来执行
 
+42. **lambda表达式**  
+可以理解为：整体是一个匿名函数，冒号左边是函数入参，右边是函数体  
+
+43. defaultdict  
+当某个键不在字典的映射里，我们也希望能得到一个默认的值，可以使用defaultdict，它是dict的子类，实现了__miss__方法  
+可迭代类型只要实现了__miss__方法，就可以为找不到的key提供默认value  
+defaultdict使用方法：  
+```
+import collections
+index = collections.defaultdict(list)
+print(index.get('start'))    # prints None
+print(index)    # prints defaultdict(<type 'list'>, {})
+print(index['start'])    # prints []
+print(index)    # prints defaultdict(<type 'list'>, {'start': []})
+```
+使用get获取时，如果key不存在，会返回None，并且不会去创建默认值  
+使用[]时，如果key不存在，会默认创建一个空list，并且指定key为'start'  
+原因是default_factory只有在__getitem__才会被调用，所以index.get('start')并不会新创建键值
+
+44. 
