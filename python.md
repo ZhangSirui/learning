@@ -292,3 +292,27 @@ print(user.name)
 主要通过四个内置函数实现：`hasattr/getattr/setattr/delattr`
 
 47. **python的self理解**  
+例如：  
+```
+class Person:
+    def __init__(self, name):
+        self.name = name
+    def think(self):
+        print("{} is thinking".format(self.name))
+
+p = Person("P")
+p.think()   # prints P is thinking
+Person.think(p)    # prints P is thinking
+print(Person.think)    # prints <function Person.think at 0x00000000021D7708>
+print(p.think)    # prints <bound method Person.think of <__main__.Person object at 0x00000000021F34C8>>
+```
+上面代码创建了一个实例p，类Person中定义了一个think方法，该方法包含一个入参self，这时候可以在调用的时候使用Person.think(p)，把实例对象p传进去  
+我们平时使用时可以直接p.think()这种方式进行调用，实际是因为方法已经与实例进行了绑定  
+看输出可以看到，方法Person.think和实例对象<__main__.Person object at 0x00000000021F34C8>即p，进行了绑定  
+实际python在执行时也会把p.think()解释为Person.think(p)，也就是说把self替换成类的实例  
+所以可以不用显式传递实例对象，而直接使用instance.method的方式调用
+
+48. type()函数
+
+49. list转为数字可以使用`''.join(list)`
+
