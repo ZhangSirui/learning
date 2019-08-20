@@ -224,7 +224,10 @@ False
 
 37. **弱引用**  
 weakref模块可以创建对一个对象的弱引用  
-对于python来说，如果一个对象有一个常规的引用，它是不会被GC回收的，但如果只剩一个弱引用，那么是可以被GC回收的
+对于python来说，如果一个对象有一个常规的引用，它是不会被GC回收的，但如果只剩一个弱引用，那么是可以被GC回收的  
+当存在循环引用的时候，通常需要使用弱引用，否则可能存在python垃圾回收机制无法回收的情况  
+因为Python的垃圾回收使用的是引用计数检查，循环引用会导致两个对象都无法被回收  
+一个对象若只被弱引用所引用，则可能在任何时刻被回收。弱引用的主要作用就是减少循环引用，减少内存中不必要的对象存在的数量  
 
 38. set集合无法进行json序列化，可以使用pickle来进行序列化
 
@@ -273,4 +276,19 @@ print(index)    # prints defaultdict(<type 'list'>, {'start': []})
 使用[]时，如果key不存在，会默认创建一个空list，并且指定key为'start'  
 原因是default_factory只有在__getitem__才会被调用，所以index.get('start')并不会新创建键值
 
-44. 
+44. try/except/else中，如果try块没有发生异常，就执行else块  
+有了else块，可以尽量缩减try块中的代码量，使其更加易读，比如，try块中捕获一种异常，如果该异常未出现，走else块，else块中再捕获另一种异常，这样代码可以更加清晰
+
+45. collections中的namedtuple可以用来创建一个类似于tuple的对象，同时对象拥有可访问的属性  
+```
+from collections import namedtuple
+User = namedtuple('User', ['name', 'age'])
+user = User('John', 25)
+print(user.name)
+```
+
+46. **python反射**  
+反射就是通过字符串的形式去对象中操作成员，一种基于字符串的事件驱动  
+主要通过四个内置函数实现：`hasattr/getattr/setattr/delattr`
+
+47. **python的self理解**  
