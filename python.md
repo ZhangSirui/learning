@@ -40,7 +40,17 @@ enumerate还可以接收参数，比如`enumerate(list, 1)`表示从第一个开
 
 11. python的\*args和\*\*kwargs是约定生成的，只有前面的\*和\*\*是必须的  
 \*args和\*\*kwargs用于函数定义，将不定数量的参数传递给一个函数  
-\*args用来发送一个非键值对的可变数量的参数列表给一个函数, \*\*kwargs允许将不定长度的键值对，作为参数传给函数
+\*args用来发送一个非键值对的可变数量的参数列表给一个函数, \*\*kwargs允许将不定长度的键值对，作为参数传给函数  
+函数定义的时候可以接受可变参数  
+```
+def person(name, *args, **kwargs):
+    print('name', name, 'age', args, 'other', kwargs)
+
+kw = {'city': 'Beijing', 'job': 'Engineer'}
+args = [1, 2, 3]
+person('John', *args, **kw)
+person('Mike', *args, **{'city': 'Beijing'})
+```
 
 12. python可以将函数赋值给一个变量，此时如果用del删除该函数，变量仍可以使用该函数的功能  
 当函数名后面带()时，该函数会被执行；如果只有函数名，则可以被到处传递  
@@ -189,4 +199,56 @@ False
 
 31. 内置函数callable()可以用来判断对象是否可调用  
 
-32. 
+32. 内置函数divmod()把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a//b, a%b)
+
+33. 时分秒字符串与秒数的互相转换  
+[时分秒与秒数的互相转换]<https://www.cnblogs.com/gayhub/p/6154707.html>
+
+34. import module和from module import的区别  
+使用import module，模块自身被导入，但是它保持着自己的名字空间，这就是为什么你需要使用模块名来访问函数或属性的原因(module.function)；  
+使用from module import，实际上是从另一个模块中将指定的函数和属性导入到你自己的名字空间，这就是为什么你可以直接访问它们却不需要引用它们来源的模块的原因
+
+35. \_\_import\_\_与import语句具有同样的功能  
+\_\_import\_\_是一个函数，并且只接收字符串作为参数，本质上import语句就是调用\_\_import\_\_来进行导入工作的  
+通常用于动态加载模块的场景
+
+36. **字符串分割**  
+`re.split()`分割很实用，例如：  
+```
+>>> line = 'asdf fjdk; afed, fjek,asdf, foo'
+>>> import re
+>>> re.split(r'[;,\s]\s*', line)
+['asdf', 'fjdk', 'afed', 'fjek', 'asdf', 'foo']
+```
+对于简单的字符串操作可以使用str模块下的函数，复杂字符串操作都可以考虑re模块
+
+37. **弱引用**  
+weakref模块可以创建对一个对象的弱引用  
+对于python来说，如果一个对象有一个常规的引用，它是不会被GC回收的，但如果只剩一个弱引用，那么是可以被GC回收的
+
+38. set集合无法进行json序列化，可以使用pickle来进行序列化
+
+39. **生成器**  
+包含yield的函数即生成器generator  
+每一次的next，函数会执行到yield，然后返回yield的值，然后暂停，下一次的时候再从yield开始接着跑
+
+40. **eventlet**  
+Eventlet是以协程概念建立起来的网络库  
+协程和普通线程的区别是:  
+> + 协程开销很小
+> + 协程共享数据，不需要锁，同一时刻只有一个线程能访问数据，通过队列去查找等待的数据  
+使用eventlet库可以通过协程实现并发  
+所谓并发，就是开启了多个greenthread(绿色线程)，并且对这些greenthread进行管理，以实现非阻塞式的I/O  
+**greenlet**就是协程，有几个特点：  
+> 1). 每个协程都有自己私有的stack及局部变量
+> 2). 同一时间内只有一个协程在运行，不需要对某些共享变量加锁
+> 3). 协程之间的执行顺序完全由程序来控制  
+**greenThread**是对greenlet进行的简单封装  
+eventlet包通过一定的控制，避免完全由程序来控制协程执行顺序导致的代码复杂  
+**greenPool**提供对greenthread池的支持，有效限制了greenthread过多导致的内存不足
+
+41. python多线程  
+python多线程相当于单位时间内只有一个线程在运行，如果是多核CPU单位时间内也只是一个核在运行  
+原因是python存在一个GIL（全局解释器锁），当一个线程在运行的时候，会自动上锁  
+所以python并不适合计算密集型的程序，解决办法是计算密集型的任务用c 编写，通过.so链接库把内容加载到Python中来执行
+
